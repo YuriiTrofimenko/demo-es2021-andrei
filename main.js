@@ -1,4 +1,4 @@
-/* // Primitive Types
+ /* // Primitive Types
 let x = 10
 let y = 'JS'
 y = "JS (${x})"
@@ -242,15 +242,17 @@ const people = [
 class Person {
   // объявление закрытого (private) свойства (поля)
   #name
+  #age
   constructor(name, age) {
     // инициализация закрытого свойства (поля)
     this.setName(name)
+    this.setAge(age)
     // объявление и инициализация открытого (public) свойства
-    this.age = age
+    //this.age = age
     // метод, вызвав который можно получить строку,
     // представляющую текущий объект Person
     this.toString = function () {
-      return `name: ${this.#name}, age: ${this.age}`
+      return `name: ${this.#name}, age: ${this.#age}`
     }
   }
   // объявление открытого метода установки значения в закрытое свойство
@@ -260,9 +262,20 @@ class Person {
     }
     this.#name = name
   }
+
+  setAge (age) {
+    if (!(typeof age === 'number' && age >= 1 && age < 130)) {
+      throw new Error('Wrong "age" argument')
+    }
+    this.#age = age
+  }
+
   // объявление открытого метода получения значения из закрытого свойства
   getName() {
     return this.#name
+  }
+  getAge() {
+    return this.#age 
   }
 }
 // Задание:
@@ -281,7 +294,7 @@ class Student extends Person {
     this.avgScore = avgScore
     // переопределение метода toString
     this.toString = function () {
-      return `Person {name: ${this.getName()}, age: ${this.age}, avgScore: ${avgScore}}`
+      return `Person {name: ${this.getName()}, age: ${this.getAge()}, avgScore: ${avgScore}}`
     }
   }
 }
@@ -295,7 +308,7 @@ class Teacher extends Person {
       super(name, age)
       this.salary = salary
       this.toString = function () {
-          return `Person {name: ${this.getName()}, age: ${this.age}, salary: ${this.salary}}`
+          return `Person {name: ${this.getName()}, age: ${this.getAge()}, salary: ${this.salary}}`
       }
   }
   // статический метод (то есть метод класса, а не его объектов),
@@ -313,8 +326,8 @@ class Teacher extends Person {
  /* const st1 = new Student('St1', 18, 10.5)
  console.log(st1.toString())*/
  // const tch1 = new Teacher('Tch1', 30, 20000)
- // const tch1 = Teacher.createInstance('Noname', 30, 20000)
- // console.log(tch1.toString())
+  const tch1 = Teacher.createInstance('Noname', 30, 20000)
+  console.log(tch1.toString())
  // tch1.#name = ''
  // tch1.setName('')
  // tch1.setName('ABC')
